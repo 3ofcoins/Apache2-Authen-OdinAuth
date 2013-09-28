@@ -20,6 +20,10 @@ my $builder = Module::Build->new(
         'YAML::XS' => 0,
         'MIME::Base64' => 3.13,
     },
+    test_requires => {
+        'Test::Pod' => 0,
+        'Test::Pod::Coverage' => 0,
+     },
     add_to_cleanup      => [ 'Apache2-Authen-OdinAuth-*' ],
     create_makefile_pl => 'traditional',
 );
