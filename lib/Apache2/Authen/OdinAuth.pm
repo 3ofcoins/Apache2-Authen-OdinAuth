@@ -10,11 +10,11 @@ Apache2::Authen::OdinAuth - A cookie-based single sign-on module for Apache.
 
 =head1 VERSION
 
-Version 0.5
+Version 0.7
 
 =cut
 
-our $VERSION = 0.6;
+our $VERSION = 0.7;
 
 use Crypt::OdinAuth;
 
@@ -119,7 +119,13 @@ use constant RELOAD_TIMEOUT => 10*60; # reload config every 10 minutes
 
 $| = 1;
 
+=head1 SUBROUTINES
 
+=head2 handler(request)
+
+Main Apache mod_perl handler
+
+=cut
 sub handler {
   #
   # get URL
@@ -295,7 +301,11 @@ sub handler {
   return &redir($r, config->{not_on_list_url});
 }
 
+=head2 redir(request, target, reason)
 
+Redirect to Authorizer App
+
+=cut
 sub redir {
   my ($r, $target, $reason) = @_;
   my $ref = &urlencode($r->construct_url($r->unparsed_uri));
@@ -306,7 +316,11 @@ sub redir {
   return Apache2::Const::REDIRECT;
 }
 
+=head2 parse_cookie_har(jar)
 
+Parse cookies into a hashref
+
+=cut
 sub parse_cookie_jar {
   my ($jar) = @_;
 
@@ -323,13 +337,18 @@ sub parse_cookie_jar {
   return $out;
 }
 
+=head2 urldecode(str)
 
+=cut
 sub urldecode {
   $_[0] =~ s!\+! !g;
   $_[0] =~ s/%([a-fA-F0-9]{2,2})/chr(hex($1))/eg;
   return $_[0];
 }
 
+=head2 urlencode(str)
+
+=cut
 sub urlencode {
   $_[0] =~ s!([^a-zA-Z0-9-_ ])! sprintf('%%%02x', ord $1) !gex;
   $_[0] =~ s! !+!g;
