@@ -97,11 +97,21 @@ happen in mod_perl.
 
 use constant RELOAD_TIMEOUT => 10*60; # reload config every 10 minutes
 
+=head1 SUBROUTINES
+
+=head2 Configuration closure
+
+=cut
 {
   my $last_reload_time = -1;
   my $config_file = undef;
   my $config = undef;
 
+=head3 config
+
+Reloads configuration if older than RELOAD_TIMEOUT
+
+=cut
   sub config {
     if ( time() - $last_reload_time > RELOAD_TIMEOUT ) {
       $config = YAML::XS::LoadFile($config_file);
@@ -109,6 +119,11 @@ use constant RELOAD_TIMEOUT => 10*60; # reload config every 10 minutes
     $config;
   }
 
+=head3 init_config(request)
+
+Finds config file and loads it for the first time
+
+=cut
   sub init_config {
     my $r = shift;
     $config_file ||=
@@ -118,8 +133,6 @@ use constant RELOAD_TIMEOUT => 10*60; # reload config every 10 minutes
 }
 
 $| = 1;
-
-=head1 SUBROUTINES
 
 =head2 handler(request)
 
@@ -316,7 +329,7 @@ sub redir {
   return Apache2::Const::REDIRECT;
 }
 
-=head2 parse_cookie_har(jar)
+=head2 parse_cookie_jar(jar)
 
 Parse cookies into a hashref
 
