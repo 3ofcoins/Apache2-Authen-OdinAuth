@@ -10,11 +10,11 @@ Apache2::Authen::OdinAuth - A cookie-based single sign-on module for Apache.
 
 =head1 VERSION
 
-Version 0.7
+Version 0.8
 
 =cut
 
-our $VERSION = 0.7;
+our $VERSION = 0.8;
 
 use Crypt::OdinAuth;
 

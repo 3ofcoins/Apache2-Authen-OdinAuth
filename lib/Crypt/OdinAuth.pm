@@ -10,11 +10,11 @@ Crypt::OdinAuth - Cryptographic calculations for the OdinAuth SSO system
 
 =head1 VERSION
 
-Version 0.2
+Version 0.2.1
 
 =cut
 
-our $VERSION = '0.2';
+our $VERSION = '0.2.1';
 
 use Digest;
 use Digest::HMAC;
@@ -44,11 +44,6 @@ cookies for OdinAuth SSO Apache handler.
 sub hmac_for ($$$$$) {
     my ( $secret, $user, $roles, $ts, $ua ) = @_;
     my $hmac = Digest::HMAC->new($secret, Digest->new("SHA-256"));
-
-    if ($ua =~ /AppleWebKit/) {
-        $ua = "StupidAppleWebkitHacksGRRR";
-    }
-    $ua =~ s/ FirePHP\/\d+\.\d+//;
 
     $hmac->add(join(',',
                     encode_base64url($user),
